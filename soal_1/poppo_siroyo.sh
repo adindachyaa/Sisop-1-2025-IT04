@@ -78,4 +78,4 @@ END {
     } else {
         print "Tidak ada data untuk Asia setelah 2023."
     }
-}' reading_data.csv
+}' reading_data.csv 
