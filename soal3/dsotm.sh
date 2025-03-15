@@ -1,6 +1,6 @@
 #!/bin/bash
 
-spiktome(){
+aspiktome(){
 while true
 do
 	curl -s -H "Accept: application/json" "https://www.affirmations.dev" | jq -r '.affirmation'
@@ -9,7 +9,7 @@ done
 }
 
 	
-ontherun(){
+bontherun(){
 for i in {1..100}; do
     sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
     printf "\rProgress: [%-100s] %d%%" $(printf "#%.0s" $(seq 1 $i)) $i
@@ -56,22 +56,32 @@ done
 done
 }
 
+
+
+ebraindamage() {
+clear
+top
+}
+
 if [[ "$1" == --play=* ]]
 then
 	track="${1#*=}"	
 
 	if [[ "$track" == "Speak to Me" ]]
 	then
-		spiktome
+		aspiktome
 	elif [[ "$track" == "On the Run" ]]
 	then
-		ontherun
+		bontherun
 	elif [[ "$track" == "Time" ]]
  	then
   		ctime
-    	elif [[ "$track" == "Money" ]]
+  	elif [[ "$track" == "Money" ]]
+	then
+		dmoney
+    	elif [[ "$track" == "Brain Damage" ]]
      	then
-      		dmoney
+      		ebraindamage
  	else
 		echo "sorry gaada lagu itu"
 	fi
@@ -80,5 +90,4 @@ else
 	exit 1
 fi	
 		
-
 
