@@ -328,10 +328,16 @@ fi
 ## Soal 4
 
 • Download file pokemon_usage.csv di terminal
-wget ```"https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv```
+```
+wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv
+```
 
 • Buat script bernama pokemon_analysis.sh di terminal
-```nano pokemon_analysis.sh```
+```
+nano pokemon_analysis.sh
+```
+
+
 
 • Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
 ```
