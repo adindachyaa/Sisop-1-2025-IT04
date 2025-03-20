@@ -66,7 +66,7 @@ Seluruh command dimasukkan kedalam 1 file dan gunakan kondisi if else untuk seti
 wget "https://drive.usercontent.google.com/u/0/uc?id=1l8fsj5LZLwXBlHaqhfJVjz_T0p7EJjqV&export=download" -O reading_data.csv
 
 ```
-
+Command ini digunakan untuk mendownload data.csv menggunakan link drive user content dan diberi nama reading_data.csv
 
 ### A
 Poppo Diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
@@ -82,7 +82,7 @@ END {
     }
 }' reading_data.csv
 ```
-
+Command ini akan mencari "Chris Hemsworth" pada kolom kedua di reading_data.csv. Jika hasil count > 0, makan akan mengeluarkakn output "Chris Hemsworth membaca ... buku"
 
 
 
