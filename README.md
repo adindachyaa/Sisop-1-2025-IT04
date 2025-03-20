@@ -130,9 +130,9 @@ c. User tidak dapat register dengan menggunakan email yang sama. Hal ini dapat d
  awk -F, -v ei="$email" '$1==ei {exit 1}' "$data_path";e_status=$? 
 ```
 
-d. Password yang diinput harus disimpan dalam bentuk hash SHA256  
+d. Password yang diinput harus disimpan dalam bentuk hash SHA256. (Revisi: Static Salt)
 ```
-hash_pass=$(echo $password | sha256sum | awk '{print $1}')
+hash_pass=$(echo -n "$password+static_salt" | openssl dgst -sha256 | awk '{print $2}')
 ```
 
 e. Core di sini adalah cpu usage dalam bentuk persen.  
@@ -180,7 +180,7 @@ Contoh Output:
 ```
 
 i. Terminal digunakan sebagai menu utama untuk melakukan register, login, dan exit. Apabila user memilih login maka akan di-direct ke Manager.
-User dapat login dengan input email, username, lalu password.
+User dapat login dengan input email, username, lalu password. (Revisi: user login dengan input email.)
 ```
 
 echo " ------------------------------"
@@ -212,22 +212,31 @@ esac
 ## Soal 3
 
 a. Membuat tampilan words of affirmations setiap detik dengan memanggil API. Tampilan setiap detik menggunakan while loop dengan sleep 1  agar ada jeda tiap detik.
+(Revisi: update UI dan pemberian warna pada text affirmations.)
 ```  
 aspiktome(){
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+        echo -e "\e[1;36m   🎵 Now Playing: Speak to Me 🎵   \e[0m"
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
 while true
 do
-	curl -s -H "Accept: application/json" "https://www.affirmations.dev" | jq -r '.affirmation'
-	sleep 1
+        affirmation=$(curl -s -H "Accept: application/json" "https://www.affirmations.dev" | jq -r '.affirmation')
+        echo -e "\e[36m$affirmation\e[0m"
+        sleep 1
 done
 }  
 ```
 
-b. Membuat progress bar yang pertambahannya dalam interval 0.1s sampai 1s secara acak.  
+b. Membuat progress bar yang pertambahannya dalam interval 0.1s sampai 1s secara acak. (Revisi: Update UI dan Warna Loading.)  
 ```
 bontherun(){
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+        echo -e "\e[1;36m🎵 Now Playing: On the Run  🎵\e[0m"
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+
 for i in {1..100}; do
     sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
-    printf "\rProgress: [%-100s] %d%%" $(printf "#%.0s" $(seq 1 $i)) $i
+    printf "\r\e[1;36m[%-100s]\e[0m %d%%" $(printf "=%.0s" $(seq 1 $i)) $i
 done
 }
 ```
