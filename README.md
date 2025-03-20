@@ -146,10 +146,65 @@ memory_usage=$(free | grep Mem | awk '{printf("%.2f%", $3/$2 * 100)}')
 ```
 
 g. Manager digunakan untuk menambah cron jobs untuk monitoring CPU dan RAM.
+```
+add_core(){
+        (crontab -l; echo "* * * * * $core >> $corelog_dir 2>&1") | crontab -
+        sudo service cron restart
+        echo "Core monitoring scheduled every one minute"
+}
 
-h. Folder logs dibuat untuk menampilkan output dari cron jobs yang telah ditambahkan, berisi file core.log dan fragment.log
+add_frag(){
+        (crontab -l; echo "* * * * * $frag >> $fraglog_dir 2>&1") | crontab -
+        sudo service cron restart
+        echo "Fragment monitoring scheduled every one min"
+}
+
+rm_core(){
+        echo "Removing core monitor.."
+        (crontab -l | grep -v "core_monitor.sh") | crontab -
+}
+
+rm_frag(){
+        echo "Removing fragment monitor.."
+        (crontab -l | grep -v "frag_monitor.sh") | crontab -
+}
+```
+
+h. Folder logs dibuat untuk menampilkan output dari cron jobs yang telah ditambahkan, berisi file core.log dan fragment.log 
+Contoh Output:
+```
+[2025-03-14 16:13:02] - Core Usage [0.416667%] - Terminal Model [12th Gen Intel(R) Core(TM) i5-12450H]
+[2025-03-18 19:10:02] - Core Usage [1.40264%] - Terminal Model [12th Gen Intel(R) Core(TM) i5-12450H]
+[2025-03-18 21:27:02] - Core Usage [0.57947%] - Terminal Model [12th Gen Intel(R) Core(TM) i5-12450H]
+[2025-03-18 21:28:02] - Core Usage [0.742574%] - Terminal Model [12th Gen Intel(R) Core(TM) i5-12450H]
+```
 
 i. Terminal digunakan sebagai menu utama untuk melakukan register, login, dan exit. Apabila user memilih login maka akan di-direct ke Manager
+```
+
+echo " ------------------------------"
+echo "|    ARCAEA TERMINAL           |"
+echo "|------------------------------|"
+echo "|ID| OPTION                    |"
+echo "| 1| Register New Account      |"
+echo "| 2| Login to Existing Account |"
+echo "| 3| Exit Arcaea Terminal      |"
+echo " ______________________________"
+echo " "
+echo " Enter Option [1-3]: "
+read option
+
+case "$option" in
+        "1")
+                source $register_path
+                ;;
+        "2")
+                source $login_path
+                ;;
+        "3")
+                exit
+esac
+```
 
 
 
