@@ -265,6 +265,34 @@ done
 ```
 
 d. program yang sangat disukai oleh teman yang bernama cmatrix, membuat program yang mirip, tetapi mengganti isinya dengan simbol mata uang seperti $ € £ ¥ ¢ ₹ ₩ ₿ ₣ dan lain lainnya.
+• Buat function yang akan membersihkan terminal dan menyembunyikan cursor. Cursor akan otomatis kembali di posisi normal saat kita menghentikan perintah (ctrl + c).
+```
+dmoney() {
+clear
+tput civis
+trap "tput cnorm; exit" SIGINT
+```
+• Menyatakan simbol-simbol yang akan digunakan dan juga mendata seluruh lines dan cols pada terminal.
+```
+simbol=("$" "€" "£" "¥" "¢" "₹" "₩" "₿" "₣")
+rows=$(tput lines)
+cols=$(tput cols)
+```
+• Membuat looping yang secara otomatis memilih kolom secara random diantara semua kolom dalam terminal, lalu membuat iterasi yang secara otomatis memindahkan cursor ke ujung terminal dan print karakter dari simbol tadi secara acak. Simbol yang muncul disetting menjadi warna pink magenta dalam jangka waktu 0,001 detik.
+```
+while true; do
+col=$((RANDOM % cols))
+for ((i=0; i<rows; i++)); do
+tput cup $i $col
+char=${simbol[$((RANDOM % ${#simbol[@]}))]}
+echo -ne "$color$char\033[95m"
+sleep 0.001
+done
+done
+}
+```
+
+Final Script Code:
 ```
 dmoney() {
 clear
@@ -336,8 +364,6 @@ wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGF
 ```
 nano pokemon_analysis.sh
 ```
-
-
 
 • Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
 ```
@@ -430,7 +456,119 @@ fi
 }
 ```
 
-Final Code:
+• Buat error handling tambahan menyesuaikan keperluan
+
+```
+if [ ! -f "$FILE" ]; then
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+  ୨♡୧ ... File-nya gaada, sir.
+
+EOF
+exit 1
+elif [ $# -lt 2 ]; then
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
+  ୨♡୧ ... Kalo masih bingung bisa ketik -h atau --help ya, sir.
+
+EOF
+exit 1
+fi
+```
+```
+*) echo "  ୨♡୧ ... Error: Gak ada opsinya, sir. Cek di -h atau --help coba.";
+```
+```
+else
+echo "  ୨♡୧ ... Error: Gak ada yang namanya kaya gitu, sir." >&2
+```
+```
+else
+echo "  ୨♡୧ ... Error: Gak ada tipenya, sir." >&2
+```
+```
+*) cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+  ୨♡୧ ... Error: Gak ada perintah kaya gitu, sir. Cek di -h atau --help coba.
+```
+
+• Buat help screen menarik yang menyertakan format serta fitur-fitur dan penjelasannya
+```
+help_sir() {
+cat <<EOF
+
+       ᕱ    waddles*⠀⠀⣠⣠⣶⣿⣷⣿⣿⣿⣷⣷⣶⣤⣀⠀⠀⠀⠀⠀⠀⭑⠀⠀⠀⠀⠀
+ ⭑              ⠀⠀⠀ ⣤⣾⣿⢿⣻⡽⣞⣳⡽⠚⠉⠉⠙⠛⢿⣶⣄⠀⠀ ⠀⠀⠀⠀⠀⠀⠀ hello! (˶ᵔ ᵕ ᵔ˶)
+⠀         ⭑       ⠀⣼⣿⣿⢻⣟⣧⢿⣻⢿⠀⠀⠀⠀⠀⠀⠀⠻⣿⣧⠀⠀ ⠀⠀⠀⭑⠀⠀ my name is piplup!
+⠀  𐪜             ⢀⣾⣿⡿⠞⠛⠚⠫⣟⡿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣧⠀⠀⠀⠀⠀⠀⠀
+⠀               ⠀⣼⣿⡟⠀⠀⠀⠀⠀⠈⢻⡽⣆⠀⠀⣴⣷⡄⠀⠀⠀⠘⣿⡆⠀⠀⣀⣠⣤⡄                ⭑
+⠀       ⭑        ⣿⣿⠁⠀⠀⠀⠀⠀⠀⠈⣿⠿⢷⡀⠘⠛⠃⠀⠀⠀⠀⣿⣅⣴⡶⠟⠋⢹⣿       ʬʬ
+⠀ ⭑             ⠀⢻⣿⡀⠀⠀⠀⣾⣿⡆⠀⢿⣴⣴⡇⠀⠀⠀⠀⠀⠀⢠⡟⠋⠁⠀⠀⠀⢸⣿
+⠀⠀               ⠈⢿⣇⠀⠀⠀⠀⠉⠁⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⣾⡏   ⭑
+⠀⠀⠀      ٪        ⠈⢿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢸⠁⠀⠀⠀⠀⠀⣼⡟⠀           ⭑
+⠀⠀⠀⠀               ⠀⣹⣿⣶⣤⣀⡀⠀⠀⠀⠀⠀⣀⠀⠀⠂⠁⠀⠐⢧⡀⠀⢀⣾⠟⠀⠀               ⁇
+⠀⠀ ⭑         ⭑   ⢀⣰⣾⠟⠉⠀⠀⠉⠉⠀⠐⠂⠀⠁⠁⠀⠀⠀⠀⠀⠀⠈⢿⣶⡟⠋⠀⠀⠀       ⭑
+               ⣠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡆⠀⠀⠀⠀ ⭑
+         ⭑     ⢻⣧⣄⠀⠀⠀⢰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀ ⠀           ⭑
+    ⁉          ⠀⠉⠛⠿⣷⣶⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀               ⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣾⣿⠀⠀⠀⠀   𑊂    ⭑
+⠀⭑⠀⠀⠀⠀    ⭑         ⠀⢹⣿⣿⣿⣿⣷⣦⡀⠀⢀⣀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣷⠀⠀  ⠀⠀            ⭑
+⠀            ⁈  ⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⣿⣿⣿⠿⠟⠁⠀⠀⠀⠀ ⭑                 ǃ
+     ⭑            ⭑                                  ⭑
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ help ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
+/ ❦ . . ꒰Perintah ꒱
+꒰-h / --help ꒱	Tampilin menu bantuan (ini).
+꒰-i / --info ꒱	Lihat Pokemon dengan pick rate dan total pick tertinggi.
+꒰-s / --sort ꒱	Urutin data sesuai kategori yang dipilih.
+  ୨♡୧ ... name		Urut berdasarkan nama Pokemon.
+  ୨♡୧ ... usage		Urut berdasarkan pick rate Pokemon (% kepake).
+  ୨♡୧ ... raw		Urut berdasarkan total pick Pokemon (berapa kali dipilih).
+  ୨♡୧ ... hp		Urut berdasarkan HP.
+  ୨♡୧ ... atk		Urut berdasarkan serangan.
+  ୨♡୧ ... def		Urut berdasarkan pertahanan.
+  ୨♡୧ ... spatk		Urut berdasarkan serangan spesial.
+  ୨♡୧ ... spdef		Urut berdasarkan pertahanan spesial.
+  ୨♡୧ ... speed		Urut berdasarkan kecepatan.
+꒰-g / --grep ꒱	Cari Pokemon tertentu (otomatis urut berdasarkan pick rate).
+꒰-f / --filter ꒱	Filter Pokemon berdasarkan tipe (otomatis urut berdasarkan pick rate).
+
+EOF
+}
+```
+
+• Buat case untuk menjalankan input dari user dan sistem akan menampilkan output sesuai dari input
+```
+case "$2" in
+-i|--info) summary ;;
+-s|--sort) sortt "$3" ;;
+-g|--grep) search_nama "$3" ;;
+-f|--filter) search_type "$3" ;;
+*) cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+  ୨♡୧ ... Error: Gak ada perintah kaya gitu, sir. Cek di -h atau --help coba.
+
+EOF
+exit 1 ;;
+esac
+```
+
+Final Script Code:
 ```
 #!/bin/bash
 
