@@ -242,7 +242,8 @@ done
 ```
 
 c. membuat live clock yang menunjukkan tanggal, jam, menit dan detik.
-Buat function dengan loop yang otomatis langsung membersihkan layar terminal. Lalu set variabel jam berdasarkan jam saat ini.
+
+• Buat function dengan loop yang otomatis langsung membersihkan layar terminal. Lalu set variabel jam berdasarkan jam saat ini.
 ```
 ctime() {
 while true; do
@@ -250,7 +251,7 @@ clear
 jam=$(date +"%H")
 ```
 
-Buat keterangan dalam jangka waktu jam tertentu.
+• Buat keterangan dalam jangka waktu jam tertentu.
 ```
 if [ $jam -ge  3 ] && [ $jam -lt 4 ]; then pesan="SAHUR WOI!"
 elif [ $jam -ge 4 ] && [ $jam -lt 10 ]; then pesan="Selamat pagi, semangat beraktivitas!"
@@ -261,7 +262,7 @@ else pesan="Selamat malam, tidur sana."
 fi
 ```
 
-Buat program yang akan menampilkan Hari, Bulan (nama bulan), Tanggal, dan Tahun. Ditambah Jam, Menit, dan Detik. Lalu diberi sedikit pembatas sebagai hiasan dan memamnggil variabel pesan untuk di print. Menyetel waktu refresh tiap 1 detik.
+• Buat program yang akan menampilkan Hari, Bulan (nama bulan), Tanggal, dan Tahun. Ditambah Jam, Menit, dan Detik. Lalu diberi sedikit pembatas sebagai hiasan dan memamnggil variabel pesan untuk di print. Menyetel waktu refresh tiap 1 detik.
 ```
 date +"%A, %B %d %Y - %H:%M:%S"
 echo "︶︶︶︶︶︶︶︶୨♡୧︶︶︶︶︶︶︶︶"
