@@ -4,7 +4,7 @@ Kelompok IT04
 | Nama                                | NRP         |
 |-------------------------------------|-------------|
 | Raya Ahmad Syarif                   | 5027241041  |
-| Salsa Bil Ulla                      | 50272240527 |
+| Salsa Bil Ulla                      | 5027241052  |
 | Adinda Cahya Pramesti               | 5027241117  |
 
 
