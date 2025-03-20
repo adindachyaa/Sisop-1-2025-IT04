@@ -179,7 +179,8 @@ Contoh Output:
 [2025-03-18 21:28:02] - Core Usage [0.742574%] - Terminal Model [12th Gen Intel(R) Core(TM) i5-12450H]
 ```
 
-i. Terminal digunakan sebagai menu utama untuk melakukan register, login, dan exit. Apabila user memilih login maka akan di-direct ke Manager
+i. Terminal digunakan sebagai menu utama untuk melakukan register, login, dan exit. Apabila user memilih login maka akan di-direct ke Manager.
+User dapat login dengan input email, username, lalu password.
 ```
 
 echo " ------------------------------"
