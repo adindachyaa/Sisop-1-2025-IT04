@@ -947,14 +947,25 @@ esac
 ```
 
 > Dokumentasi output
-![image](https://github.com/user-attachments/assets/ce865b9b-85c2-4661-8556-52dc68fa4893)
+
+![image](https://github.com/user-attachments/assets/ecb22d14-e6f7-4a1e-871b-2241fd467ae5)
+
 ![image](https://github.com/user-attachments/assets/70a4c832-52f7-4a61-b80d-22ceee09c50f)
-![image](https://github.com/user-attachments/assets/8f9f0235-7633-417d-af04-8479b3d66cb0)
+
+![image](https://github.com/user-attachments/assets/60f4f0c0-f460-47bf-acd3-0179a5c73674)
+
 ![image](https://github.com/user-attachments/assets/c629aa4c-2b5b-449c-9673-be489999c8cd)
-![image](https://github.com/user-attachments/assets/0d49aa13-caec-4b10-bdb9-1c232f0f67d7)
+
+![image](https://github.com/user-attachments/assets/c8f1e561-b8e3-46de-b700-c0b43fd78ae4)
+
 ![image](https://github.com/user-attachments/assets/1bb82e5e-4866-431b-b7b9-1e09986f5198)
+
 ![image](https://github.com/user-attachments/assets/84c4b5b2-aa56-4a3f-87f1-5c24fb7e62dd)
+
 ![image](https://github.com/user-attachments/assets/51075110-192c-4b49-ad31-b47749c83a3d)
+
 ![image](https://github.com/user-attachments/assets/814aaf86-a08e-48e6-ac0e-4cdde53df4c5)
+
 ![image](https://github.com/user-attachments/assets/81fa0c20-070a-4800-ac51-14d4e3111665)
+
 ![image](https://github.com/user-attachments/assets/6d3b926b-ddae-4818-9651-23d45dcaa113)
