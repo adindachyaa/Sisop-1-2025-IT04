@@ -1,9 +1,12 @@
 # Shift Modul 1 - IT04
 
 Kelompok IT04
-1. Raya Ahmad Syarif - 5027241041
-2. Salsa Bil Ulla - 5027241052
-3. Adinda Cahya Pramesti - 5027241117
+| Nama                                | NRP         |
+|-------------------------------------|-------------|
+| Raya Ahmad Syarif                   | 5027241041  |
+| Salsa Bil Ulla                      | 50272240527 |
+| Adinda Cahya Pramesti               | 5027241117  |
+
 
 
 ## Soal 1
@@ -109,6 +112,11 @@ END {
 
 
 ```
+
+### > Dokumentasi Output
+![image](https://github.com/user-attachments/assets/9759b45c-d9d9-48da-9897-ac20ac7519bd)
+
+Output langsung menampilkan seisi file karena ketentuan dari soal bahwa command harus dimasuka ke dalam file bernama popposiroyo.sh
 
 
 
@@ -353,9 +361,28 @@ done
 e. menampilkan proses yang sedang berjalan, seperti task manager tetapi menampilkannya di dalam terminal dan membuat agar task manager tersebut menampilkan data baru setiap detiknya.
 ```
 ebraindamage() {
-clear
-top
+    clear
+    echo -e "\033[1;35m"
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo "        🧠✨ Welcome to Brain Damage! ✨🧠        "
+    echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    echo -e "\033[0m"
+    
+    echo -e "\033[1;33mPreparing your system for total chaos...\033[0m"
+    for i in {3..1}; do
+        echo -e "\033[1;31m$i...\033[0m"
+        sleep 1
+    done
+
+    echo -e "\033[1;32m\nUnleashing system performance magic! 💥\033[0m"
+    sleep 1
+
+    top
+
+    echo -e "\033[1;34m\nHope your brain survived the damage! 🌀\033[0m"
+    echo -e "\033[1;36mHave a nice day! 😄\033[0m"
 }
+
 ```
 ```
 if [[ "$1" == --play=* ]]
