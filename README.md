@@ -169,6 +169,8 @@ rm_frag(){
         (crontab -l | grep -v "frag_monitor.sh") | crontab -
 }
 ```
+![WhatsApp Image 2025-03-20 at 23 13 14_d13314ba](https://github.com/user-attachments/assets/4ca6f88e-14f8-484b-b820-85ed81ad09c3)
+
 
 h. Folder logs dibuat untuk menampilkan output dari cron jobs yang telah ditambahkan, berisi file core.log dan fragment.log 
 Contoh Output:
@@ -206,6 +208,7 @@ case "$option" in
                 exit
 esac
 ```
+![WhatsApp Image 2025-03-20 at 23 15 13_abdde0c0](https://github.com/user-attachments/assets/32dfabe9-761f-4483-b23e-ce323c400ff8)
 
 
 
