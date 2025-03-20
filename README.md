@@ -546,220 +546,7 @@ Untuk memberikan petunjuk yang baik pada pengguna program, anda berpikir untuk m
 - ASCII Art yang menarik! Gunakan kreativitas anda untuk mencari/membuat art yang cocok untuk program yang sudah anda buat!
 - Penjelasan setiap command dan sub-command
 
-• Download file pokemon_usage.csv di terminal
-```
-wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv
-```
-
-• Buat script bernama pokemon_analysis.sh di terminal
-```
-nano pokemon_analysis.sh
-```
-
-• Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
-```
-summary() {
-highest_usage=$(awk 'BEGIN {FS=","} NR>1 {if($2+0>max1) {max1=$2+0; name1=$1}} END {print name1 " dengan " max1 "%"}' "$FILE")
-highest_raw=$(awk 'BEGIN {FS=","} NR>1 {if($3+0>max2) {max2=$3+0; name2=$1}} END {print name2 " dengan " max2 " kali"}' "$FILE")
-cat <<EOF
- ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ info ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
- ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-EOF
-echo "/ ❦ . . ꒰Pick Rate tertinggi : $highest_usage ꒱"
-echo "/ ❦ . . ꒰Total Pick Tertinggi : $highest_raw ꒱"
-echo
-}
-```
-
-• Buat fitur sort dengan keyword -s atau --sort dengan urutan sesuai alfabet jika menggunakan nama dan urutan sesuai angka jika menggunakan selain nama
-```
-sortt() {
-cat <<EOF
-ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ sort ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
-ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ） 
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆ 
-EOF 
-column=$1 
-case "$column" in 
-name) col=1 ;; 
-usage) col=2 ;; 
-raw) col=3 ;; 
-hp) col=6 ;; 
-atk) col=7 ;; 
-def) col=8 ;; 
-spatk) col=9 ;; 
-spdef) col=10 ;; 
-speed) col=11 ;; 
-*) echo " ୨♡୧ ... Error: Gak ada opsinya, sir. Cek di -h atau --help coba."; 
-echo; 
-exit 1 ;; 
-esac 
-echo "$(head -1 "$FILE")" && tail -n +2 "$FILE" | sort -t',' -k"$col","$col"nr 
-echo 
-}
-```
-
-• Buat fitur untuk mencari nama tertentu dengan keyword -g atau --grep urutannya sesuai usage% tertinggi
-```
-search_nama() {
-cat <<EOF
-
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ grep ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-EOF
-header=$(head -1 "$FILE")
-result_nama=$(awk -F',' -v name="$1" 'NR>1 && index(tolower($1), tolower(name))' "$FILE" | sort -t',' -k2,2nr)
-if [ -n "$result_nama" ]; then
-echo "$header"
-echo "$result_nama"
-echo
-exit 1
-else
-echo "  ୨♡୧ ... Error: Gak ada yang namanya kaya gitu, sir." >&2
-echo
-fi
-}
-```
-
-• Buat fitur untuk menspesifikasi type tertentu dengan keyword - --find urutannya juga sesuai usage% tertinggi
-```
-search_type() {
-cat <<EOF
-
-ㅤ :¨·.·¨:        .˳⁺⁎˚ ꒰ఎ filter ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-EOF
-header=$(head -1 "$FILE")
-result_type=$(awk -F',' -v type="$1" 'NR>1 && tolower($4)==tolower(type) || tolower($5)==tolower(type)' "$FILE" | sort -t',' -k2,2nr)
-
-if [ -n "$result_type" ]; then
-echo "$header"
-echo "$result_type"
-echo
-exit 1
-else
-echo "  ୨♡୧ ... Error: Gak ada tipenya, sir." >&2
-echo
-fi
-}
-```
-
-• Buat error handling tambahan menyesuaikan keperluan
-
-```
-if [ ! -f "$FILE" ]; then
-cat <<EOF
-
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-  ୨♡୧ ... File-nya gaada, sir.
-
-EOF
-exit 1
-elif [ $# -lt 2 ]; then
-cat <<EOF
-
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
-  ୨♡୧ ... Kalo masih bingung bisa ketik -h atau --help ya, sir.
-
-EOF
-exit 1
-fi
-```
-```
-*) echo "  ୨♡୧ ... Error: Gak ada opsinya, sir. Cek di -h atau --help coba.";
-```
-```
-else
-echo "  ୨♡୧ ... Error: Gak ada yang namanya kaya gitu, sir." >&2
-```
-```
-else
-echo "  ୨♡୧ ... Error: Gak ada tipenya, sir." >&2
-```
-```
-*) cat <<EOF
-
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-  ୨♡୧ ... Error: Gak ada perintah kaya gitu, sir. Cek di -h atau --help coba.
-```
-
-• Buat help screen menarik yang menyertakan format serta fitur-fitur dan penjelasannya
-```
-help_sir() {
-cat <<EOF
-
-       ᕱ    waddles*⠀⠀⣠⣠⣶⣿⣷⣿⣿⣿⣷⣷⣶⣤⣀⠀⠀⠀⠀⠀⠀⭑⠀⠀⠀⠀⠀
- ⭑              ⠀⠀⠀ ⣤⣾⣿⢿⣻⡽⣞⣳⡽⠚⠉⠉⠙⠛⢿⣶⣄⠀⠀ ⠀⠀⠀⠀⠀⠀⠀ hello! (˶ᵔ ᵕ ᵔ˶)
-⠀         ⭑       ⠀⣼⣿⣿⢻⣟⣧⢿⣻⢿⠀⠀⠀⠀⠀⠀⠀⠻⣿⣧⠀⠀ ⠀⠀⠀⭑⠀⠀ my name is piplup!
-⠀  𐪜             ⢀⣾⣿⡿⠞⠛⠚⠫⣟⡿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣧⠀⠀⠀⠀⠀⠀⠀
-⠀               ⠀⣼⣿⡟⠀⠀⠀⠀⠀⠈⢻⡽⣆⠀⠀⣴⣷⡄⠀⠀⠀⠘⣿⡆⠀⠀⣀⣠⣤⡄                ⭑
-⠀       ⭑        ⣿⣿⠁⠀⠀⠀⠀⠀⠀⠈⣿⠿⢷⡀⠘⠛⠃⠀⠀⠀⠀⣿⣅⣴⡶⠟⠋⢹⣿       ʬʬ
-⠀ ⭑             ⠀⢻⣿⡀⠀⠀⠀⣾⣿⡆⠀⢿⣴⣴⡇⠀⠀⠀⠀⠀⠀⢠⡟⠋⠁⠀⠀⠀⢸⣿
-⠀⠀               ⠈⢿⣇⠀⠀⠀⠀⠉⠁⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⣾⡏   ⭑
-⠀⠀⠀      ٪        ⠈⢿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢸⠁⠀⠀⠀⠀⠀⣼⡟⠀           ⭑
-⠀⠀⠀⠀               ⠀⣹⣿⣶⣤⣀⡀⠀⠀⠀⠀⠀⣀⠀⠀⠂⠁⠀⠐⢧⡀⠀⢀⣾⠟⠀⠀               ⁇
-⠀⠀ ⭑         ⭑   ⢀⣰⣾⠟⠉⠀⠀⠉⠉⠀⠐⠂⠀⠁⠁⠀⠀⠀⠀⠀⠀⠈⢿⣶⡟⠋⠀⠀⠀       ⭑
-               ⣠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡆⠀⠀⠀⠀ ⭑
-         ⭑     ⢻⣧⣄⠀⠀⠀⢰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀ ⠀           ⭑
-    ⁉          ⠀⠉⠛⠿⣷⣶⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀
-⠀⠀⠀⠀⠀               ⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣾⣿⠀⠀⠀⠀   𑊂    ⭑
-⠀⭑⠀⠀⠀⠀    ⭑         ⠀⢹⣿⣿⣿⣿⣷⣦⡀⠀⢀⣀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣷⠀⠀  ⠀⠀            ⭑
-⠀            ⁈  ⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⣿⣿⣿⠿⠟⠁⠀⠀⠀⠀ ⭑                 ǃ
-     ⭑            ⭑                                  ⭑
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ help ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
-/ ❦ . . ꒰Perintah ꒱
-꒰-h / --help ꒱	Tampilin menu bantuan (ini).
-꒰-i / --info ꒱	Lihat Pokemon dengan pick rate dan total pick tertinggi.
-꒰-s / --sort ꒱	Urutin data sesuai kategori yang dipilih.
-  ୨♡୧ ... name		Urut berdasarkan nama Pokemon.
-  ୨♡୧ ... usage		Urut berdasarkan pick rate Pokemon (% kepake).
-  ୨♡୧ ... raw		Urut berdasarkan total pick Pokemon (berapa kali dipilih).
-  ୨♡୧ ... hp		Urut berdasarkan HP.
-  ୨♡୧ ... atk		Urut berdasarkan serangan.
-  ୨♡୧ ... def		Urut berdasarkan pertahanan.
-  ୨♡୧ ... spatk		Urut berdasarkan serangan spesial.
-  ୨♡୧ ... spdef		Urut berdasarkan pertahanan spesial.
-  ୨♡୧ ... speed		Urut berdasarkan kecepatan.
-꒰-g / --grep ꒱	Cari Pokemon tertentu (otomatis urut berdasarkan pick rate).
-꒰-f / --filter ꒱	Filter Pokemon berdasarkan tipe (otomatis urut berdasarkan pick rate).
-
-EOF
-}
-```
-
-• Buat case untuk menjalankan input dari user dan sistem akan menampilkan output sesuai dari input
-```
-case "$2" in
--i|--info) summary ;;
--s|--sort) sortt "$3" ;;
--g|--grep) search_nama "$3" ;;
--f|--filter) search_type "$3" ;;
-*) cat <<EOF
-
-ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
-ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
--⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
-  ୨♡୧ ... Error: Gak ada perintah kaya gitu, sir. Cek di -h atau --help coba.
-
-EOF
-exit 1 ;;
-esac
-```
-
-Final Script Code:
+> Penyelesaian soal
 ```
 #!/bin/bash
 
@@ -930,3 +717,244 @@ EOF
 exit 1 ;;
 esac
 ```
+
+> Penjelasan
+**pokemon_analysis.sh**
+1. Unduh dan buat skrip
+- Mengunduh pokemon_usage.csv di direktori yang sama dengan skrip
+- Lalu membuat skrip pokemon_analysis.sh
+```
+wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv
+nano pokemon_analysis.sh
+```
+2. Terima Input
+- Skrip menerima parameter dari command line.
+- `$1` diambil sebagai nama file `(FILE=$1)`.
+```
+#!/bin/bash
+
+FILE=$1
+```
+3. Buat _help screen_ menarik
+-  Membuat fungsi `help_sir`.
+- Menambahkan _ASCII Art_ menarik untuk ditampilkan sebagai hiasan.
+- Menambahkan format perintah dan opsi dari perintah-perintah tersebut beserta penjelasannya.
+```
+help_sir() {
+cat <<EOF
+
+       ᕱ    waddles*⠀⠀⣠⣠⣶⣿⣷⣿⣿⣿⣷⣷⣶⣤⣀⠀⠀⠀⠀⠀⠀⭑⠀⠀⠀⠀⠀
+ ⭑              ⠀⠀⠀ ⣤⣾⣿⢿⣻⡽⣞⣳⡽⠚⠉⠉⠙⠛⢿⣶⣄⠀⠀ ⠀⠀⠀⠀⠀⠀⠀ hello! (˶ᵔ ᵕ ᵔ˶)
+⠀         ⭑       ⠀⣼⣿⣿⢻⣟⣧⢿⣻⢿⠀⠀⠀⠀⠀⠀⠀⠻⣿⣧⠀⠀ ⠀⠀⠀⭑⠀⠀ my name is piplup!
+⠀  𐪜             ⢀⣾⣿⡿⠞⠛⠚⠫⣟⡿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣧⠀⠀⠀⠀⠀⠀⠀
+⠀               ⠀⣼⣿⡟⠀⠀⠀⠀⠀⠈⢻⡽⣆⠀⠀⣴⣷⡄⠀⠀⠀⠘⣿⡆⠀⠀⣀⣠⣤⡄                ⭑
+⠀       ⭑        ⣿⣿⠁⠀⠀⠀⠀⠀⠀⠈⣿⠿⢷⡀⠘⠛⠃⠀⠀⠀⠀⣿⣅⣴⡶⠟⠋⢹⣿       ʬʬ
+⠀ ⭑             ⠀⢻⣿⡀⠀⠀⠀⣾⣿⡆⠀⢿⣴⣴⡇⠀⠀⠀⠀⠀⠀⢠⡟⠋⠁⠀⠀⠀⢸⣿
+⠀⠀               ⠈⢿⣇⠀⠀⠀⠀⠉⠁⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⣾⡏   ⭑
+⠀⠀⠀      ٪        ⠈⢿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢸⠁⠀⠀⠀⠀⠀⣼⡟⠀           ⭑
+⠀⠀⠀⠀               ⠀⣹⣿⣶⣤⣀⡀⠀⠀⠀⠀⠀⣀⠀⠀⠂⠁⠀⠐⢧⡀⠀⢀⣾⠟⠀⠀               ⁇
+⠀⠀ ⭑         ⭑   ⢀⣰⣾⠟⠉⠀⠀⠉⠉⠀⠐⠂⠀⠁⠁⠀⠀⠀⠀⠀⠀⠈⢿⣶⡟⠋⠀⠀⠀       ⭑
+               ⣠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡆⠀⠀⠀⠀ ⭑
+         ⭑     ⢻⣧⣄⠀⠀⠀⢰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀ ⠀           ⭑
+    ⁉          ⠀⠉⠛⠿⣷⣶⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀               ⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣾⣿⠀⠀⠀⠀   𑊂    ⭑
+⠀⭑⠀⠀⠀⠀    ⭑         ⠀⢹⣿⣿⣿⣿⣷⣦⡀⠀⢀⣀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣷⠀⠀  ⠀⠀            ⭑
+⠀            ⁈  ⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⣿⣿⣿⠿⠟⠁⠀⠀⠀⠀ ⭑                 ǃ
+     ⭑            ⭑                                  ⭑
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ help ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
+/ ❦ . . ꒰Perintah ꒱
+꒰-h / --help ꒱	Tampilin menu bantuan (ini).
+꒰-i / --info ꒱	Lihat Pokemon dengan pick rate dan total pick tertinggi.
+꒰-s / --sort ꒱	Urutin data sesuai kategori yang dipilih.
+  ୨♡୧ ... name		Urut berdasarkan nama Pokemon.
+  ୨♡୧ ... usage		Urut berdasarkan pick rate Pokemon (% kepake).
+  ୨♡୧ ... raw		Urut berdasarkan total pick Pokemon (berapa kali dipilih).
+  ୨♡୧ ... hp		Urut berdasarkan HP.
+  ୨♡୧ ... atk		Urut berdasarkan serangan.
+  ୨♡୧ ... def		Urut berdasarkan pertahanan.
+  ୨♡୧ ... spatk		Urut berdasarkan serangan spesial.
+  ୨♡୧ ... spdef		Urut berdasarkan pertahanan spesial.
+  ୨♡୧ ... speed		Urut berdasarkan kecepatan.
+꒰-g / --grep ꒱	Cari Pokemon tertentu (otomatis urut berdasarkan pick rate).
+꒰-f / --filter ꒱	Filter Pokemon berdasarkan tipe (otomatis urut berdasarkan pick rate).
+
+EOF
+}
+```
+
+4. Buat  peringatan terkait _error_
+- Menampilkan fungsi `help_sir` dengan metode _if else_ yang membaca `$1` sebagai `-h` atau `--help`.
+```
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then help_sir; exit 0; fi
+```
+- Menambahkan peringatan jika file belum terunduh.
+```
+if [ ! -f "$FILE" ]; then
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+  ୨♡୧ ... File-nya gaada, sir.
+
+EOF
+exit 1
+```
+- Juga menambahkan peringatan jika format argumen tidak seharusnya.
+```
+elif [ $# -lt 2 ]; then
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+/ ❦ . . ꒰Format: $0 <nama file> <perintah> [opsi tambahan] ꒱
+  ୨♡୧ ... Kalo masih bingung bisa ketik -h atau --help ya, sir.
+
+EOF
+exit 1
+fi
+```
+
+5. Fungsi informasi
+- Membuat fungsi `summary` untuk menampilkan _Highest Usage%_ dan _Highest RawUsage_.
+- Mengambil informasi menggunakan _loop_ awk yang otomatis mencari angka terbesar pada kolom `Usage%` dan `RawUsage`.
+- Mencetak informasi di dalam _template_ hiasan.
+```
+summary() {
+highest_usage=$(awk 'BEGIN {FS=","} NR>1 {if($2+0>max1) {max1=$2+0; name1=$1}} END {print name1 " dengan " max1 "%"}' "$FILE")
+highest_raw=$(awk 'BEGIN {FS=","} NR>1 {if($3+0>max2) {max2=$3+0; name2=$1}} END {print name2 " dengan " max2 " kali"}' "$FILE")
+cat <<EOF
+ ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ info ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
+ ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+echo "/ ❦ . . ꒰Pick Rate tertinggi : $highest_usage ꒱"
+echo "/ ❦ . . ꒰Total Pick Tertinggi : $highest_raw ꒱"
+echo
+}
+```
+
+6. Fungsi urut
+- Membuat fungsi `sortt` dan menempel _template_ hiasan terlebih dahulu.
+- Menggunakan _case_ untuk membaca _input_ argumen dari _user_ dan mengarahkan pada kolom yang dituju.
+- Menambah _error handling_ jika opsi kolom tidak ada.
+- Mencetak _header_ dan _list_ dengan urut secara alfabet untuk nama dan dari besar ke kecil untuk selain nama.
+```
+sortt() {
+cat <<EOF
+ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ sort ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
+ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ） 
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆ 
+EOF 
+column=$1 
+case "$column" in 
+name) col=1 ;; 
+usage) col=2 ;; 
+raw) col=3 ;; 
+hp) col=6 ;; 
+atk) col=7 ;; 
+def) col=8 ;; 
+spatk) col=9 ;; 
+spdef) col=10 ;; 
+speed) col=11 ;; 
+*) echo " ୨♡୧ ... Error: Gak ada opsinya, sir. Cek di -h atau --help coba."; 
+echo; 
+exit 1 ;; 
+esac 
+echo "$(head -1 "$FILE")" && tail -n +2 "$FILE" | sort -t',' -k"$col","$col"nr 
+echo 
+}
+```
+
+7. Fungsi cari nama
+- Membuat fungsi `search_nama` dan menempel _template_ hiasan.
+- Menambah header lalu membuat sistem yang mencari nama sesuai _input user_ pada _list_ nama Pokemon.
+- Jika `result_nama` menemukan hasil maka _header_ dan hasilnya akan tercetak.
+- Menambah _error handling_ jika nama Pokemon tidak ditemukan.
+```
+search_nama() {
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ grep ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+header=$(head -1 "$FILE")
+result_nama=$(awk -F',' -v name="$1" 'NR>1 && index(tolower($1), tolower(name))' "$FILE" | sort -t',' -k2,2nr)
+if [ -n "$result_nama" ]; then
+echo "$header"
+echo "$result_nama"
+echo
+exit 1
+else
+echo "  ୨♡୧ ... Error: Gak ada yang namanya kaya gitu, sir." >&2
+echo
+fi
+}
+```
+
+8. Fungsi cari tipe
+- Membuat fungsi `search_type` dan menempel _template_ hiasan.
+- Menambah header lalu membuat sistem yang mencari nama sesuai _input user_ pada _list_ nama Pokemon.
+- Jika `result_type` menemukan hasil maka _header_ dan hasilnya akan tercetak.
+- Menambah _error handling_ jika tipe Pokemon tidak ditemukan.
+```
+search_type() {
+cat <<EOF
+
+ㅤ :¨·.·¨:        .˳⁺⁎˚ ꒰ఎ filter ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+header=$(head -1 "$FILE")
+result_type=$(awk -F',' -v type="$1" 'NR>1 && tolower($4)==tolower(type) || tolower($5)==tolower(type)' "$FILE" | sort -t',' -k2,2nr)
+
+if [ -n "$result_type" ]; then
+echo "$header"
+echo "$result_type"
+echo
+exit 1
+else
+echo "  ୨♡୧ ... Error: Gak ada tipenya, sir." >&2
+echo
+fi
+}
+```
+
+9. _Case statement excecution_
+- Mengeksekusi _input_ dari _user_ menggunakan `case`.
+- Menambah _error handling_ jika argumen perintah tidak ditemukan.
+```
+case "$2" in
+-i|--info) summary ;;
+-s|--sort) sortt "$3" ;;
+-g|--grep) search_nama "$3" ;;
+-f|--filter) search_type "$3" ;;
+*) cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ error ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+  ୨♡୧ ... Error: Gak ada perintah kaya gitu, sir. Cek di -h atau --help coba.
+
+EOF
+exit 1 ;;
+esac
+```
+
+> Dokumentasi output
+![image](https://github.com/user-attachments/assets/ce865b9b-85c2-4661-8556-52dc68fa4893)
+![image](https://github.com/user-attachments/assets/70a4c832-52f7-4a61-b80d-22ceee09c50f)
+![image](https://github.com/user-attachments/assets/8f9f0235-7633-417d-af04-8479b3d66cb0)
+![image](https://github.com/user-attachments/assets/c629aa4c-2b5b-449c-9673-be489999c8cd)
+![image](https://github.com/user-attachments/assets/0d49aa13-caec-4b10-bdb9-1c232f0f67d7)
+![image](https://github.com/user-attachments/assets/1bb82e5e-4866-431b-b7b9-1e09986f5198)
+![image](https://github.com/user-attachments/assets/84c4b5b2-aa56-4a3f-87f1-5c24fb7e62dd)
+![image](https://github.com/user-attachments/assets/51075110-192c-4b49-ad31-b47749c83a3d)
+![image](https://github.com/user-attachments/assets/814aaf86-a08e-48e6-ac0e-4cdde53df4c5)
+![image](https://github.com/user-attachments/assets/81fa0c20-070a-4800-ac51-14d4e3111665)
+![image](https://github.com/user-attachments/assets/6d3b926b-ddae-4818-9651-23d45dcaa113)
