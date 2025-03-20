@@ -8,6 +8,29 @@ Kelompok IT04
 | Adinda Cahya Pramesti               | 5027241117  |
 
 
+## Ketentuan
+Struktur Repository Seperti Berikut:
+```
+—soal_1:
+  	— popposiroyo.sh
+
+—soal_2:
+  	├── login.sh
+	├── register.sh
+	├── scripts/
+	│   ├── core_monitor.sh
+	│   ├── frag_monitor.sh
+	│   └── manager.sh
+	└── terminal.sh
+
+
+—soal_3:
+  	— dsotm.sh
+
+—soal_4:
+  	— pokemon_analysis.sh
+
+```
 
 ## Soal 1
 
