@@ -460,6 +460,91 @@ fi
 
 
 ## Soal 4
+> Isi soal
+
+Pada suatu hari, anda diminta teman anda untuk membantunya mempersiapkan diri untuk turnamen Pokemon “Generation 9 OverUsed 6v6 Singles” dengan cara membuatkan tim yang cocok untuknya. Tetapi, anda tidak memahami meta yang dimainkan di turnamen tersebut. Untungnya, seorang informan memberikan anda data **<ins>[pokemon_usage.csv](https://drive.google.com/file/d/1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ/view?usp=sharing)</ins>** yang bisa anda download dan analisis. 
+[Author: Amoes / **winter**]
+Data tersebut memiliki banyak kolom:
+- Nama Pokemon
+- Usage% yang merupakan persentase Pokemon yang disesuaikan dengan Rank pengguna dan Winrate
+- Raw Usage yang merupakan jumlah mentah Pokemon dalam semua tim yang tercatat
+- Type1 dan Type2 Pokemon
+- Statistic Pokemon: HP,Atk,Def,SpAtk,SpDef,Speed
+Untuk menganalisis data tersebut dengan baik, anda berpikiran untuk membuat script yang bernama **pokemon_analysis.sh** dengan fitur sebagai berikut:
+
+**A. Melihat summary** dari data
+Untuk mengetahui Pokemon apa yang sedang membawa teror kepada lingkungan “Generation 9 OverUsed” anda berusaha untuk membuat sebuah fitur untuk **menampilkan nama Pokemon dengan Usage% dan RawUsage paling tinggi**.
+Contoh (atur pesan sesuai kreativitas):
+```
+./pokemon_analysis.sh pokemon_usage.csv --info
+Summary of pokemon_usage.csv
+Highest Adjusted Usage:  <namaPokemon> with 31.0927%
+Highest Raw Usage:   	<namaPokemon> with 563831 uses
+```
+
+**B. Mengurutkan Pokemon** berdasarkan data kolom
+Untuk memastikan bahwa anda mengetahui kondisi lingkungan “Generation 9 OverUsed”, anda berusaha untuk membuat sebuah **fitur untuk sort** berdasarkan:
+- Usage%
+- RawUsage
+- Nama
+- HP
+- Atk
+- Def
+- Sp.Atk
+- Sp.Def
+- Speed
+Sort dilakukan dengan urutan ***descending*** untuk semua angka selain nama, yang diurutkan secara ***alphabetical***. Output harus **sesuai dengan format csv yang diberikan**.
+Contoh:
+```
+./pokemon_analysis.sh pokemon_usage.csv --sort usage
+Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed
+<namaPokemon>,31.09270%,253499,Ground,Flying,75,95,125,45,75,95
+<namaPokemon>,27.06328%,563831,Ground,Fighting,115,131,131,53,53,87
+<namaPokemon>,22.41954%,224818,Flying,Steel,98,87,105,53,85,67
+<namaPokemon>,21.52833%,192107,Dark,Ground,155,110,125,55,80,45
+<namaPokemon>,21.27718%,412146,Dark,Steel,100,135,120,60,85,50
+... dan seterusnya (195 more lines)
+```
+
+**C. Mencari nama Pokemon tertentu**
+Setelah mengetahui kondisi lingkungan “Generation 9 OverUsed”, anda ingin mencari tahu statistik penggunaan dari beberapa Pokemon yang mungkin dapat bertanding baik melawan sebagian besar Pokemon yang ada di Top 10 usage. Oleh karena itu, anda membuat fitur search berdasarkan **nama Pokemon**. Pastikan agar search yang dimasukkan tidak memunculkan hasil yang tidak diinginkan (seperti memunculkan semua Grass type ketika mengetik search “Grass”), dan output harus **sesuai dengan format csv yang diberikan** dengan **sort Usage%**.
+Contoh:
+```
+./pokemon_analysis.sh pokemon_usage.csv --grep rotom
+Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed
+Rotom-Wash,1.62637%,71243,Electric,Water,50,65,107,105,107,86
+````
+
+**D. Mencari Pokemon berdasarkan filter nama type**
+Agar dapat membuat tim yang baik, anda perlu memikirkan kombinasi yang baik dari beberapa Pokemon, hal ini disebut sebagai “core” oleh komunitas Pokemon! Oleh karena itu, anda berpikiran untuk membuat fitur filter berdasarkan **Type** sebuah Pokemon. Output harus **sesuai dengan format csv yang diberikan** dengan **sort Usage%**.
+Contoh:
+```
+./pokemon_analysis.sh pokemon_usage.csv --filter dark
+Pokemon,Usage%,RawUsage,Type1,Type2,HP,Atk,Def,SpAtk,SpDef,Speed
+Ting-Lu,21.52833%,192107,Dark,Ground,155,110,125,55,80,45
+Kingambit,21.27718%,412146,Dark,Steel,100,135,120,60,85,50
+Roaring Moon,12.32447%,230323,Dragon,Dark,105,139,71,55,101,119
+Samurott-Hisui,10.89438%,214350,Water,Dark,90,108,80,100,65,85
+Darkrai,10.40132%,170900,Dark,None,70,90,90,135,90,125
+Weavile,7.75603%,79409,Dark,Ice,70,120,65,45,85,125
+... dan seterusnya (20 more lines)
+```
+
+**E. Error handling**
+Pastikan program yang anda buat mengecek semua kesalahan pengguna agar dapat memberikan kejelasan kepada pengguna pada setiap kasus.
+Contoh:
+```
+./pokemon_analysis.sh pokemon_usage.csv --filter
+Error: no filter option provided
+```
+```
+Use -h or --help for more information
+```
+
+**F. Help screen yang menarik**
+Untuk memberikan petunjuk yang baik pada pengguna program, anda berpikir untuk membuat sebuah help screen yang muncul ketika mengetik **-h** atau **--help** sebagai command yang dijalankan. Kriteria yang harus ada dalam help screen pada program ini adalah:
+- ASCII Art yang menarik! Gunakan kreativitas anda untuk mencari/membuat art yang cocok untuk program yang sudah anda buat!
+- Penjelasan setiap command dan sub-command
 
 • Download file pokemon_usage.csv di terminal
 ```
@@ -470,7 +555,6 @@ wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGF
 ```
 nano pokemon_analysis.sh
 ```
-![image](https://github.com/user-attachments/assets/8b7ee93d-3681-42b5-96d1-ed819bf5e824)
 
 • Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
 ```
