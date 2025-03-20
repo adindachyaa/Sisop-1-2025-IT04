@@ -1,9 +1,9 @@
 #!/bin/bash
 
-core="/home/rayakali/modul1/soal2/scripts/core_monitor.sh"
-frag="/home/rayakali/modul1/soal2/scripts/frag_monitor.sh"
-corelog_dir="/home/rayakali/modul1/soal2/logs/core.log"
-fraglog_dir="/home/rayakali/modul1/soal2/logs/fragment.log"
+core="/home/rayakali/modul1/soal_2/scripts/core_monitor.sh"
+frag="/home/rayakali/modul1/soal_2/scripts/frag_monitor.sh"
+corelog_dir="/home/rayakali/modul1/soal_2/logs/core.log"
+fraglog_dir="/home/rayakali/modul1/soal_2/logs/fragment.log"
 
 add_core(){
 	(crontab -l; echo "* * * * * $core >> $corelog_dir 2>&1") | crontab -

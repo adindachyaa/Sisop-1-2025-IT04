@@ -1,18 +1,26 @@
 #!/bin/bash
 
 aspiktome(){
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+        echo -e "\e[1;36m   🎵 Now Playing: Speak to Me 🎵   \e[0m"
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
 while true
 do
-	curl -s -H "Accept: application/json" "https://www.affirmations.dev" | jq -r '.affirmation'
+	affirmation=$(curl -s -H "Accept: application/json" "https://www.affirmations.dev" | jq -r '.affirmation')
+	echo -e "\e[36m$affirmation\e[0m"
 	sleep 1
 done
 }
 
 	
 bontherun(){
+	echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+        echo -e "\e[1;36m🎵 Now Playing: On the Run  🎵\e[0m"
+        echo -e "\e[1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m"
+
 for i in {1..100}; do
     sleep $(awk -v min=0.1 -v max=1 'BEGIN{srand(); print min+rand()*(max-min)}')
-    printf "\rProgress: [%-100s] %d%%" $(printf "#%.0s" $(seq 1 $i)) $i
+    printf "\r\e[1;36m[%-100s]\e[0m %d%%" $(printf "=%.0s" $(seq 1 $i)) $i
 done
 }
 

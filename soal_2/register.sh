@@ -1,6 +1,6 @@
 #!/bin/bash
  
-data_path="$HOME/modul1/soal2/data/player.csv"
+data_path="$HOME/modul1/soal_2/data/player.csv"
 
 while true
 do	
@@ -37,7 +37,7 @@ do
 	fi
 done
 
-hash_pass=$(echo $password | sha256sum | awk '{print $1}')
+hash_pass=$(echo -n "$password+static_salt" | openssl dgst -sha256 | awk '{print $2}')
 
 echo "$email,$username,$hash_pass" >>"$data_path"
 

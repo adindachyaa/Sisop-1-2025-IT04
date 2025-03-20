@@ -1,7 +1,7 @@
 #!/bin/bash
 
-register_path="$HOME/modul1/soal2/register.sh"
-login_path="$HOME/modul1/soal2/login.sh"
+register_path="$HOME/modul1/soal_2/register.sh"
+login_path="$HOME/modul1/soal_2/login.sh"
 
 echo " ------------------------------"
 echo "|    ARCAEA TERMINAL           |"
