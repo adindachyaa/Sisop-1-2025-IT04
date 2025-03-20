@@ -242,6 +242,36 @@ done
 ```
 
 c. membuat live clock yang menunjukkan tanggal, jam, menit dan detik.
+Buat function dengan loop yang otomatis langsung membersihkan layar terminal. Lalu set variabel jam berdasarkan jam saat ini.
+```
+ctime() {
+while true; do
+clear
+jam=$(date +"%H")
+```
+
+Buat keterangan dalam jangka waktu jam tertentu.
+```
+if [ $jam -ge  3 ] && [ $jam -lt 4 ]; then pesan="SAHUR WOI!"
+elif [ $jam -ge 4 ] && [ $jam -lt 10 ]; then pesan="Selamat pagi, semangat beraktivitas!"
+elif [ $jam -ge 10 ] && [ $jam -lt 15 ]; then pesan="Selamat siang, lemes gak nih? Wkwk."
+elif [ $jam -ge 15 ] && [ $jam -lt 18 ]; then pesan="Selamat sore, ngabuburit ngapain? Jangan lupa nyari takjil!"
+elif [ $jam -ge 18 ] && [ $jam -lt 20 ]; then pesan="Selamat berbuka puasa, sob. Sholat teraweh jangan lupa, ya!"
+else pesan="Selamat malam, tidur sana."
+fi
+```
+
+Buat program yang akan menampilkan Hari, Bulan (nama bulan), Tanggal, dan Tahun. Ditambah Jam, Menit, dan Detik. Lalu diberi sedikit pembatas sebagai hiasan dan memamnggil variabel pesan untuk di print. Menyetel waktu refresh tiap 1 detik.
+```
+date +"%A, %B %d %Y - %H:%M:%S"
+echo "︶︶︶︶︶︶︶︶୨♡୧︶︶︶︶︶︶︶︶"
+echo "୨♡୧ ... $pesan"
+sleep 1
+done
+}
+```
+
+Final Script Code:
 ```
 ctime() {
 while true; do
@@ -265,6 +295,7 @@ done
 ```
 
 d. program yang sangat disukai oleh teman yang bernama cmatrix, membuat program yang mirip, tetapi mengganti isinya dengan simbol mata uang seperti $ € £ ¥ ¢ ₹ ₩ ₿ ₣ dan lain lainnya.
+
 • Buat function yang akan membersihkan terminal dan menyembunyikan cursor. Cursor akan otomatis kembali di posisi normal saat kita menghentikan perintah (ctrl + c).
 ```
 dmoney() {
