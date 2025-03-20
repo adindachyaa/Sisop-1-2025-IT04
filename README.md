@@ -396,6 +396,7 @@ wget "https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGF
 ```
 nano pokemon_analysis.sh
 ```
+![image](https://github.com/user-attachments/assets/8b7ee93d-3681-42b5-96d1-ed819bf5e824)
 
 • Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
 ```
