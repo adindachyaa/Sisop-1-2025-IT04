@@ -261,6 +261,105 @@ fi
 
 
 ## Soal 4
+
+• Download file pokemon_usage.csv di terminal
+wget ```"https://drive.usercontent.google.com/u/1/uc?id=1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ&export=download" -O pokemon_usage.csv```
+
+• Buat script bernama pokemon_analysis.sh di terminal
+```nano pokemon_analysis.sh```
+
+• Buat fitur summary dengan keyword -i atau --info berisikan informasi Pokemon dengan Usage% tertinggi dan RawUsage tertinggi
+```
+summary() {
+highest_usage=$(awk 'BEGIN {FS=","} NR>1 {if($2+0>max1) {max1=$2+0; name1=$1}} END {print name1 " dengan " max1 "%"}' "$FILE")
+highest_raw=$(awk 'BEGIN {FS=","} NR>1 {if($3+0>max2) {max2=$3+0; name2=$1}} END {print name2 " dengan " max2 " kali"}' "$FILE")
+cat <<EOF
+ ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ info ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
+ ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+echo "/ ❦ . . ꒰Pick Rate tertinggi : $highest_usage ꒱"
+echo "/ ❦ . . ꒰Total Pick Tertinggi : $highest_raw ꒱"
+echo
+}
+```
+
+• Buat fitur sort dengan keyword -s atau --sort dengan urutan sesuai alfabet jika menggunakan nama dan urutan sesuai angka jika menggunakan selain nama
+```
+sortt() {
+cat <<EOF
+ㅤ :¨·.·¨: .˳⁺⁎˚ ꒰ఎ sort ໒ ꒱ ˚⁎⁺˳ . ￨𐑘__/,￨（｀＼
+ㅤ ˋ·.ꔫ ˊ _.￨o o ￨_ ） ） 
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆ 
+EOF 
+column=$1 
+case "$column" in 
+name) col=1 ;; 
+usage) col=2 ;; 
+raw) col=3 ;; 
+hp) col=6 ;; 
+atk) col=7 ;; 
+def) col=8 ;; 
+spatk) col=9 ;; 
+spdef) col=10 ;; 
+speed) col=11 ;; 
+*) echo " ୨♡୧ ... Error: Gak ada opsinya, sir. Cek di -h atau --help coba."; 
+echo; 
+exit 1 ;; 
+esac 
+echo "$(head -1 "$FILE")" && tail -n +2 "$FILE" | sort -t',' -k"$col","$col"nr 
+echo 
+}
+```
+
+• Buat fitur untuk mencari nama tertentu dengan keyword -g atau --grep urutannya sesuai usage% tertinggi
+```
+search_nama() {
+cat <<EOF
+
+ㅤ :¨·.·¨:         .˳⁺⁎˚ ꒰ఎ grep ໒ ꒱ ˚⁎⁺˳ .           ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+header=$(head -1 "$FILE")
+result_nama=$(awk -F',' -v name="$1" 'NR>1 && index(tolower($1), tolower(name))' "$FILE" | sort -t',' -k2,2nr)
+if [ -n "$result_nama" ]; then
+echo "$header"
+echo "$result_nama"
+echo
+exit 1
+else
+echo "  ୨♡୧ ... Error: Gak ada yang namanya kaya gitu, sir." >&2
+echo
+fi
+}
+```
+
+• Buat fitur untuk menspesifikasi type tertentu dengan keyword - --find urutannya juga sesuai usage% tertinggi
+```
+search_type() {
+cat <<EOF
+
+ㅤ :¨·.·¨:        .˳⁺⁎˚ ꒰ఎ filter ໒ ꒱ ˚⁎⁺˳ .          ￨𐑘__/,￨（｀＼
+ㅤ  ˋ·.ꔫ ˊ                                            _.￨o o  ￨_ ）  ）
+-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆୨♡୧⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆-⋆⋆-⋆-(((-⋆-(((⋆-⋆-⋆-⋆
+EOF
+header=$(head -1 "$FILE")
+result_type=$(awk -F',' -v type="$1" 'NR>1 && tolower($4)==tolower(type) || tolower($5)==tolower(type)' "$FILE" | sort -t',' -k2,2nr)
+
+if [ -n "$result_type" ]; then
+echo "$header"
+echo "$result_type"
+echo
+exit 1
+else
+echo "  ୨♡୧ ... Error: Gak ada tipenya, sir." >&2
+echo
+fi
+}
+```
+
+Final Code:
 ```
 #!/bin/bash
 
