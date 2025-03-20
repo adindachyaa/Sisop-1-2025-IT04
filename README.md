@@ -68,8 +68,7 @@ wget "https://drive.usercontent.google.com/u/0/uc?id=1l8fsj5LZLwXBlHaqhfJVjz_T0p
 ```
 Command ini digunakan untuk mendownload data.csv menggunakan link drive user content dan diberi nama reading_data.csv
 
-### A
-Poppo Diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
+### > A. Poppo Diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
 
 ```
 awk -F, '
@@ -86,8 +85,7 @@ Command ini akan mencari "Chris Hemsworth" pada kolom kedua di reading_data.csv.
 
 
 
-### B
-Siroyo diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan “Tablet”
+### > B. Siroyo diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan “Tablet”
 ```
 awk -F, '
 {
@@ -107,8 +105,7 @@ END {
 }' reading_data.csv
 ```
 
-### C
-Siroyo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca beserta nama dan judul bukunya.
+### > C. Siroyo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca beserta nama dan judul bukunya.
 ```
 awk -F, '
 {
@@ -129,8 +126,7 @@ END {
 }' reading_data.csv
 ```
 
-### D
-Siroyo menganalisis data untuk menemukan genre yang paling sering dibaca (terpopuler) di Asia setelah 31 Desember 2023, beserta jumlahnya, agar laporannya jadi yang terbaik di klub.
+### > D. Siroyo menganalisis data untuk menemukan genre yang paling sering dibaca (terpopuler) di Asia setelah 31 Desember 2023, beserta jumlahnya, agar laporannya jadi yang terbaik di klub.
 ```
 awk -F, '
 {
