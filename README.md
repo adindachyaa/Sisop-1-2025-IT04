@@ -59,8 +59,15 @@ Di sebuah desa kecil yang dikelilingi bukit hijau, Poppo dan Siroyo, dua sahabat
 Note:
 Seluruh command dimasukkan kedalam 1 file dan gunakan kondisi if else untuk setiap soalnya.
 
-```
 
+## > Jawaban
+```
+nano popposiroyo.sh
+```
+Command ini digunakan untuk membuat dan masuk ke dalam file bernama popposiroyo.sh
+
+
+```
 #!/bin/bash
 
 wget "https://drive.usercontent.google.com/u/0/uc?id=1l8fsj5LZLwXBlHaqhfJVjz_T0p7EJjqV&export=download" -O reading_data.csv
@@ -104,6 +111,9 @@ END {
     }
 }' reading_data.csv
 ```
+Command ini akan mencari "Tablet" pada kolom ke-8 kemudian akan membabca "reading duration" menggunakan tablet dan akan dimasukkan ke dalam nilai sum.
+" Sum/Count" digunakan untuk mencari rata rata reading duration menggunakan tablet.
+
 
 ### > C. Siroyo mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca beserta nama dan judul bukunya.
 ```
@@ -125,6 +135,10 @@ END {
     }
 }' reading_data.csv
 ```
+Command in digunakan untuk mencari rating tertinggi pada kolom ke 7, jika rating tertinggi ditemukan, maka nama pembaca dan judul buku akan di print bersamaan sesuai ouput yang diperintahkan.
+
+
+
 
 ### > D. Siroyo menganalisis data untuk menemukan genre yang paling sering dibaca (terpopuler) di Asia setelah 31 Desember 2023, beserta jumlahnya, agar laporannya jadi yang terbaik di klub.
 ```
@@ -154,8 +168,15 @@ END {
     }
 }' reading_data.csv
 
-
 ```
+Command ini digunakan untuk mencari **genre buku paling populer di Asia setelah tahun 2023** dalam file `reading_data.csv`. 
+
+1. **Filter Data**: Mengecek apakah kolom ke-9 berisi "Asia" dan kolom ke-5 (tanggal) lebih dari "2023-12-31".  
+2. **Hitung Genre**: Menyimpan jumlah buku untuk setiap genre di kolom ke-4 dalam array `genre_count`.  
+3. **Cari Genre Terpopuler**: Loop menentukan genre dengan jumlah buku terbanyak.  
+4. **Output**: Mencetak genre paling populer dan jumlah bukunya, atau pesan jika tidak ada data yang memenuhi kriteria.
+
+
 
 ### > Dokumentasi Output
 ![image](https://github.com/user-attachments/assets/9759b45c-d9d9-48da-9897-ac20ac7519bd)
